@@ -497,6 +497,6 @@ $('.AutoCommitJSONForm').ajaxForm({
 
 </script>
 	<div class="clear"></div>
-	<div id="OSC_Footer">© 赛斯特(WWW.SYSIT.ORG)</div>
+	<div id="OSC_Footer">© 姜宗禹(WWW.SYSIT.ORG)</div>
 </div>
 </body></html>

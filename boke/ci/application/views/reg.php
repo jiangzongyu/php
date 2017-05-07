@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="css/thickbox.css" type="text/css" media="screen">
   <link rel="stylesheet" href="css/osc-popup.css" type="text/css" media="screen">
   <script type="text/javascript" src="js/jquery-1.js"></script>
+    <script src="js/jq.js"></script>
   <script type="text/javascript" src="js/jquery.js"></script>
   <script type="text/javascript" src="js/thickbox.js"></script>
   <script type="text/javascript" src="js/common.js"></script>
@@ -36,7 +37,7 @@
 
 <div class="MainForm" id="reg_page">
 <form id="frm_reg" action="user/save_user" method="POST" style="float:left; width:620px;">
-    <h2>申请<span style="color: #006600;"> SYSIT Blog</span> 账号，已经申请的请点击<a href="login.htm">这里</a>登录</h2>
+    <h2>申请<span style="color: #006600;"> SYSIT Blog</span> 账号，已经申请的请点击<a href="user/login">这里</a>登录</h2>
     <div id="error_msg" class="error_msg" style="display:none"></div>
 	<table cellpadding="0" cellspacing="0">
     	<tbody><tr id="tr_email">
@@ -65,8 +66,8 @@
     	<tr id="tr_gender">
         	<th>性别：</th>		
     		<td>
-				<input name="gender" value="1" id="gender_1" type="radio"><label for="gender_1">男</label>&nbsp;&nbsp;&nbsp;
-				<input name="gender" value="2" id="gender_2" type="radio"><label for="gender_2">女</label>
+				<input name="gender" value="男" id="gender_1" type="radio"><label for="gender_1">男</label>&nbsp;&nbsp;&nbsp;
+				<input name="gender" value="女" id="gender_2" type="radio"><label for="gender_2">女</label>
 				<span class="nodisp">请选择性别</span>
 			</td>	
         </tr>
@@ -198,4 +199,20 @@ $('#frm_reg').ajaxForm({
 </script></div>
 	<div id="OSC_Footer">© 大禹哥</div>
 </div>
+<script>
+    $(function () {
+        $('#f_email').blur(function () {
+//            alert($(this).val());
+            //url data callback type
+            $.get('user/check_name',{email:this.value},function (data) {
+//                alert(data);
+                if(data=='ok'){
+                    $('#email_tip').html("√").removeClass('nodisp');
+                }else {
+                    $('#email_tip').html("用户名已存在").removeClass('nodisp');
+                }
+            },"text");
+        });
+    });
+</script>
 </body></html>

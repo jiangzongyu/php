@@ -23,6 +23,7 @@
 			$this->load->model('blogm');
 			$this->blogm->get_newBlog($title,$content);
 			// $this->load->view('newBlog');
+            redirect('blogc/index');
 		}
 
 		public function do_blogCatalog(){

@@ -33,7 +33,12 @@
 </div><!-- #EndLibraryItem --><div id="OSC_Topbar">
 	  <div id="VisitorInfo">
 		当前访客身份：
-				Johnny [ <a href="#">退出</a> ]
+          <?php
+          $login_user=$this->session->userdata('login_user');
+          if($login_user){
+              ?>
+              <?php echo $login_user->NAME; ?>
+          <?php }?> [ <a href="user/logout">退出</a> ]
 				<span id="OSC_Notification">
 			<a href="#" class="msgbox" title="进入我的留言箱">你有<em>0</em>新留言</a>
 																				</span>

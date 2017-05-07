@@ -14,7 +14,12 @@
 				'PROVINCE'=>$province
 				);
 			return $this->db->insert('t_users',$arr);
+//			if($this->db->affected_rows()){
+//			    return TRUE;
+//            }
+//            return FALSE;
 		}
+
 		public function login($account,$pass){
 			$arr=array(
 				'ACCOUNT'=>$account,
@@ -23,6 +28,14 @@
 			$query=$this->db->get_where('t_users',$arr);
 			return $query->row();
 		}
-
+        public function get_by_email($account){
+            $arr=array(
+                'ACCOUNT'=>$account
+            );
+            $query=$this->db->get_where('t_users',$arr)->row();
+            var_dump($query);
+            die();
+            return $query;
+		}
 	}
 ?>

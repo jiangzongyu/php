@@ -31,13 +31,21 @@
     <div class="clear"></div>
 </div><!-- #EndLibraryItem --><div id="OSC_Topbar">
 	  <div id="VisitorInfo">
-		当前访客身份：<?php 
-	$login_user=$this->session->userdata('login_user');
-	
-	 if($login_user){
-?>
-<?php echo $login_user->NAME; ?>已登录 [ <a href="user/logout">退出</a> ]
-<?php }?>
+		当前访客身份：
+          <?php
+	        $login_user=$this->session->userdata('login_user');
+	        if($login_user){
+	      ?>
+
+                <?php echo $login_user->NAME; ?>已登录 [ <a href="user/logout">退出</a> ]
+            <?php
+	        }else {
+                ?>
+                游客 [ <a href="user/login">登录</a> | <a href="user/regist">注册</a> ]
+
+                <?php
+            }
+            ?>
 				<span id="OSC_Notification">
 			<a href="inbox.htm" class="msgbox" title="进入我的留言箱">你有<em>0</em>新留言</a>
 			</span>
