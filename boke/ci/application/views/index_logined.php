@@ -60,18 +60,32 @@
 		<div class="clear"></div>
 	</div>
 	<div id="OSC_Content"><div class="SpaceChannel">
-	<div id="portrait"><a href="adminIndex.htm"><img src="images/portrait.gif" alt="Johnny" title="Johnny" class="SmallPortrait" user="154693" align="absmiddle"></a></div>
+            <?php
+                if($login_user) {
+                    ?>
+                    <div id="portrait"><a href="adminIndex.htm"><img src="images/portrait.gif" alt="Johnny"
+                                                                     title="Johnny" class="SmallPortrait" user="154693"
+                                                                     align="absmiddle"></a></div>
+                    <?php
+                }
+    ?>
     <div id="lnks">
 		<strong>
 		<?php 
 			$login_user=$this->session->userdata('login_user');
 			if($login_user){
 		?>
-			<?php echo $login_user->NAME; ?>
+			<?php echo $writer->NAME; ?>
 		<?php }?>
 		</strong>
-		<div><a href="#">博客列表</a>&nbsp;|
-			<a href="sendMsg.htm">发送留言</a></div>
+        <?php
+            if($login_user) {
+                ?>
+                <div><a href="#">博客列表</a>&nbsp;|
+                    <a href="sendMsg.htm">发送留言</a></div>
+                <?php
+            }
+        ?>
 	</div>
 	<div class="clear"></div>
 </div>
@@ -81,15 +95,27 @@
 	
 	<div class="outline">
 	<?php	
-		foreach($blogs as $blog){
-	?>
-	<h2 class="BlogAccess_true BlogTop_0"><a href="#"><?php echo $blog->TITLE ?></a></h2>
-	  <span class="time">时间：<?php echo $blog->ADD_TIME ?></span>
-	  <!-- <span class="catalog">分类: <a href="#">工作日志</a></span> -->
+		foreach($blogs as $blog) {
+            ?>
+            <h2 class="BlogAccess_true BlogTop_0"><a href="blog/view/<?php echo $blog->BLOG_ID ?>"><?php echo $blog->TITLE ?></a></h2>
+            <span class="time">时间：<?php echo $blog->ADD_TIME ?></span>
+            <span class="catalog">分类: <a href="#"><?php echo $blog->CATALOG_NAME ?></a></span>
 
-	  <span class="stat">统计: 1评/4阅</span>
-	  	  <span class="blog_admin">( <a href="newBlog.htm">修改</a> | <a href="javascript:delete_blog(24027)">删除</a> )</span><br>
-	  	  <span class="content">内容：<?php echo $blog->CONTENT ?></span>	  
+            <span class="stat">统计: <?php echo $blog->CLICK_RATE ?>阅读</span>
+            <?php
+                if ($login_user&&$login_user->USER_ID==$writer->USER_ID) {
+            ?>
+                <span class="blog_admin">( <a href="newBlog.htm">修改</a> | <a href="javascript:delete_blog(24027)">删除</a> )</span>
+                <br>
+            <?php
+                }else{
+            ?>
+                    <br/>
+                    <?php
+                }
+                    ?>
+	  	  <span class="content">内容：<?php echo mb_strlen($blog->CONTENT)<10?$blog->CONTENT:mb_substr($blog->CONTENT,0,10)."......"; ?></span>
+            <div class='fullcontent'><a href="viewPost_comment.htm">阅读全文...</a></div>
 	  	  <?php
 			}
 	  	  ?>
@@ -97,21 +123,29 @@
 </ul>
 <div class="clear"></div>
 	</div>
-<div class="BlogMenu"><div class="admin SpaceModule">
-  <strong>博客管理</strong>
-  <ul class="LinkLine">
-	<li><a href="blogc/newBlog">发表博客</a></li>
-			<li><a href="blogc/blogCatalog">博客分类管理</a></li>
-	<li><a href="blogc/blogs">文章管理</a></li>
-	<li><a href="blogComments.htm">网友评论管理</a></li>
-  </ul>
-</div>
-<div class="catalogs SpaceModule">
-	<strong>微博分类</strong>>
-	<ul class="LinkLine">
-		
-	</ul>>
-</div>
+        <?php
+            if($login_user){
+        ?>
+        <div class="BlogMenu">
+            <div class="admin SpaceModule">
+                <strong>博客管理</strong>
+                <ul class="LinkLine">
+                    <li><a href="blogc/newBlog">发表博客</a></li>
+                    <li><a href="blogc/blogCatalog">博客分类管理</a></li>
+                    <li><a href="blogc/blogs">文章管理</a></li>
+                    <li><a href="blogComments.htm">网友评论管理</a></li>
+                </ul>
+            </div>
+            <div class="catalogs SpaceModule">
+                <strong>微博分类</strong>>
+                <ul class="LinkLine">
+
+                </ul>
+                >
+            </div>
+            <?php
+            }
+    ?>
 <div class="comments SpaceModule">
   <strong>最新网友评论</strong>
       <ul>

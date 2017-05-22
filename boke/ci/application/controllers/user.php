@@ -34,22 +34,30 @@
             }
 
 		}
+
+		public function index(){
+            $this->load->view('index_logined');
+        }
+
 		public function login(){
 			$this->load->view('login');
 		}
-        public function  visitor(){
-		    $this->load->view('visitor');
-        }
+//        public function  visitor(){
+//		    $this->load->view('visitor');
+//        }
 		public function do_login(){
+            //1.接受数据
 			$email=$this->input->post('email');
 			$pass=$this->input->post('pwd');
+
+			//2.访问数据库
 			$this->load->model('user_model');
 			$query=$this->user_model->login($email,$pass);
-		
+
+			//3.跳转
 			if($query){
 				$this->session->set_userdata("login_user",$query);
-				redirect('blogc/index');
-				 // $this->load->view('index_logined');
+				redirect('blogc/index?writer='.$query->USER_ID);
 			}else{
 			
 				redirect("user/login");
@@ -58,7 +66,7 @@
 		}
 		public function logout(){
 			$this->session->unset_userdata("login_user");
-			redirect('blogc/index');
+			redirect('blogc/visitor');
 		}
 
 		public  function check_name(){

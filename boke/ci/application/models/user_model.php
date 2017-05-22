@@ -28,13 +28,14 @@
 			$query=$this->db->get_where('t_users',$arr);
 			return $query->row();
 		}
+
         public function get_by_email($account){
             $arr=array(
                 'ACCOUNT'=>$account
             );
             $query=$this->db->get_where('t_users',$arr)->row();
-            var_dump($query);
-            die();
+//            var_dump($query);
+//            die();
             return $query;
 		}
 	}
