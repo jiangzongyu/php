@@ -36,6 +36,8 @@
             $arr=array(
                 'USER_ID'=>$user_id
             );
+//            var_dump($user_id);
+//            die();
             $query=$this->db->get_where('t_users',$arr)->row();
 //            var_dump($query);
 //            die();
@@ -52,6 +54,11 @@
         }
 
         public function get_by_id($blog_id){
+            //点击率+1
+            $this->db->set('click_rate','click_rate+1',FALSE);
+            $this->db->where('blog_id',$blog_id);
+            $this->db->update('t_blogs');
+            //查询文章详细信息
             $this->db->select('blog.*,usr.name as WRITER_NAME,usr.img as WRITER_IMG');
             $this->db->from('t_blogs blog');
             $this->db->join('t_users usr','blog.writer=usr.user_id');

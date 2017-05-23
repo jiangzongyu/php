@@ -61,7 +61,7 @@
 	</div>
 	<div id="OSC_Content"><div class="SpaceChannel">
             <?php
-                if($login_user) {
+                if($login_user||$writer->USER_ID) {
                     ?>
                     <div id="portrait"><a href="adminIndex.htm"><img src="images/portrait.gif" alt="Johnny"
                                                                      title="Johnny" class="SmallPortrait" user="154693"
@@ -70,17 +70,16 @@
                 }
     ?>
     <div id="lnks">
-		<strong>
-		<?php 
-			$login_user=$this->session->userdata('login_user');
-			if($login_user){
-		?>
-			<?php echo $writer->NAME; ?>
-		<?php }?>
-		</strong>
         <?php
-            if($login_user) {
-                ?>
+        $login_user=$this->session->userdata('login_user');
+        if($login_user || $writer->USER_ID){
+            ?>
+		<strong>
+
+			<?php echo $writer->NAME; ?>
+
+		</strong>
+
                 <div><a href="#">博客列表</a>&nbsp;|
                     <a href="sendMsg.htm">发送留言</a></div>
                 <?php
@@ -97,7 +96,7 @@
 	<?php	
 		foreach($blogs as $blog) {
             ?>
-            <h2 class="BlogAccess_true BlogTop_0"><a href="blog/view/<?php echo $blog->BLOG_ID ?>"><?php echo $blog->TITLE ?></a></h2>
+            <h2 class="BlogAccess_true BlogTop_0"><a href="blogc/view/<?php echo $blog->BLOG_ID ?>"><?php echo $blog->TITLE ?></a></h2>
             <span class="time">时间：<?php echo $blog->ADD_TIME ?></span>
             <span class="catalog">分类: <a href="#"><?php echo $blog->CATALOG_NAME ?></a></span>
 
@@ -115,7 +114,7 @@
                 }
                     ?>
 	  	  <span class="content">内容：<?php echo mb_strlen($blog->CONTENT)<10?$blog->CONTENT:mb_substr($blog->CONTENT,0,10)."......"; ?></span>
-            <div class='fullcontent'><a href="viewPost_comment.htm">阅读全文...</a></div>
+            <div class='fullcontent'><a href="blogc/view/<?php echo $blog->BLOG_ID ?>">阅读全文...</a></div>
 	  	  <?php
 			}
 	  	  ?>

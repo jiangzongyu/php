@@ -31,7 +31,20 @@
     </div><!-- #EndLibraryItem --><div id="OSC_Topbar">
         <div id="VisitorInfo">
             当前访客身份：
-            游客 [ <a href="login.htm">登录</a> | <a href="reg.htm">注册</a> ]
+            <?php
+            $login_user=$this->session->userdata('login_user');
+            if($login_user){
+                ?>
+
+                <?php echo $login_user->NAME; ?>已登录 [ <a href="user/logout">退出</a> ]
+                <?php
+            }else {
+                ?>
+                游客 [ <a href="user/login">登录</a> | <a href="user/regist">注册</a> ]
+
+                <?php
+            }
+            ?>
             <span id="OSC_Notification">
 			<a href="sendMsg.htm" class="msgbox" title="进入我的留言箱">你有<em>0</em>新留言</a>
 					</span>
@@ -46,11 +59,11 @@
         <div class="clear"></div>
     </div>
     <div id="OSC_Content"><div class="SpaceChannel">
-            <div id="portrait"><a href="#"><img src="images/portrait.gif" alt="Johnny" title="Johnny" class="SmallPortrait" user="154693" align="absmiddle"></a></div>
+            <div id="portrait"><a href="blogc/index?writer=<?php echo $blog->WRITER; ?>"><img src="images/portrait.gif" alt="Johnny" title="Johnny" class="SmallPortrait" user="154693" align="absmiddle"></a></div>
             <div id="lnks">
                 <strong><?php echo $blog->WRITER_NAME;?>的博客</strong>
                 <div>
-                    <a href="index.htm">TA的博客列表</a>&nbsp;|
+                    <a href="blogc/index?writer=<?php echo $blog->WRITER; ?>">TA的博客列表</a>&nbsp;|
                     <a href="javascript:sendmsg(154693)">发送留言</a>
                     </span>
                 </div>
@@ -63,9 +76,16 @@
             <div class="BlogTitle">
                 <h1><?php echo $blog->TITLE;?></h1>
                 <div class="BlogStat">
+
+                    <?php
+                        if($login_user && $login_user->USER_ID==$blog->WRITER){
+                    ?>
 						<span class="admin">
-			<a href="newBlog.htm">编辑</a>&nbsp;|&nbsp;<a href="javascript:delete_blog(24026)">删除</a>
-		</span>
+		                	<a href="newBlog.htm">编辑</a>&nbsp;|&nbsp;<a href="javascript:delete_blog(24026)">删除</a>
+		                  </span>
+                    <?php
+                        }
+                    ?>
                     <?php echo $blog->ADD_TIME;?>
                     已有<strong><?php echo $blog->CLICK_RATE;?></strong>次阅读
                     共<strong><a href="#comments"><?php echo count($comments);?></a></strong>个评论
@@ -103,7 +123,7 @@
             </div>
             <div class="CommentForm">
                 <a name="postform"></a>
-                <form id="form_comment" action="/action/blog/add_comment?blog=24026" method="POST">
+                <form id="form_comment" method="POST">
                     <textarea id="ta_post_content" name="content" style="width: 450px; height: 100px;"></textarea><br>
                     <input value="发表评论" id="btn_comment" class="SUBMIT" type="submit">
                     <img id="submiting" style="display: none;" src="images/loading.gif" align="absmiddle">
@@ -152,4 +172,15 @@
     <div class="clear"></div>
     <div id="OSC_Footer">© 赛斯特(WWW.SYSIT.ORG)</div>
 </div>
+<script>
+    $(function () {
+        $('#form_comment').submit(function () {
+            //通过ajax来验证用户是否登录
+            //url,data,callback,type
+            $.get('user/ajax_check_login',function () {
+
+            },'text');
+        })
+    })
+</script>
 </body></html>

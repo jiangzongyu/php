@@ -70,7 +70,7 @@
             $this->load->model('blogm');
             $blog = $this->blogm->get_by_id($blog_id);
             //第二次查询blog的comments
-            $comments = $this->commentsm->get_by_blog_id($blog_id);
+            $comments = $this->commentsm ->get_by_blog_id($blog_id);
             $data = array(
                 'blog'=>$blog,
                 'comments'=>$comments

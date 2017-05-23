@@ -83,5 +83,9 @@
                echo "ok";
            }
         }
+
+        public  function ajax_check_name(){
+           $this->session->userdata('login');
+        }
 	}
 ?>

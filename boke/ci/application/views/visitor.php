@@ -60,33 +60,8 @@
         <div class="clear"></div>
     </div>
     <div id="OSC_Content"><div class="SpaceChannel">
-            <?php
-            if($login_user) {
-                ?>
-                <div id="portrait"><a href="adminIndex.htm"><img src="images/portrait.gif" alt="Johnny"
-                                                                 title="Johnny" class="SmallPortrait" user="154693"
-                                                                 align="absmiddle"></a></div>
-                <?php
-            }
-            ?>
-            <div id="lnks">
-                <strong>
-                    <?php
-                    $login_user=$this->session->userdata('login_user');
-                    if($login_user){
-                        ?>
-                        <?php echo $writer->NAME; ?>
-                    <?php }?>
-                </strong>
-                <?php
-                if($login_user) {
-                    ?>
-                    <div><a href="#">博客列表</a>&nbsp;|
-                        <a href="sendMsg.htm">发送留言</a></div>
-                    <?php
-                }
-                ?>
-            </div>
+
+
             <div class="clear"></div>
         </div>
         <div class="BlogList">
