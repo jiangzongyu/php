@@ -136,11 +136,20 @@
                 </ul>
             </div>
             <div class="catalogs SpaceModule">
-                <strong>微博分类</strong>>
+                <strong>微博分类</strong>
                 <ul class="LinkLine">
+                    <?php
+                        foreach($catalogs as $catalog){
+
+                    ?>
+                            <li><a href="#"><?php echo $catalog->NAME; ?></a></li>
+
+                    <?php
+                        }
+                    ?>
 
                 </ul>
-                >
+
             </div>
             <?php
             }

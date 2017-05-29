@@ -84,8 +84,13 @@
            }
         }
 
-        public  function ajax_check_name(){
-           $this->session->userdata('login');
+        public function ajax_check_login(){
+           $login_user=$this->session->userdata('login_user');
+           if($login_user){
+               echo 'logined';
+           }else {
+               echo 'not_login';
+           }
         }
 	}
 ?>

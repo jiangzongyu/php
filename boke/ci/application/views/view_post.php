@@ -5,9 +5,6 @@
     <base href="<?php echo site_url();?>">
     <link rel="stylesheet" href="css/space2011.css" type="text/css" media="screen">
     <link rel="stylesheet" type="text/css" href="css/jquery.css" media="screen">
-    <script type="text/javascript" src="js/jquery-1.js"></script>
-    <script type="text/javascript" src="js/jquery.js"></script>
-    <script type="text/javascript" src="js/jquery_002.js"></script>
     <script type="text/javascript" src="js/oschina.js"></script>
     <style type="text/css">
         body,table,input,textarea,select {font-family:Verdana,sans-serif,宋体;}
@@ -97,7 +94,7 @@
                     <li>上篇 <span>(1小时前)</span>：<a href="viewPost_logined.htm" class="prev">测试文章2</a></li>            	</ul>
             </div>
             <div class="BlogComments">
-                <h2><a name="comments" href="#postform" class="opts">发表评论»</a>共有 2 条网友评论</h2>
+                <h2><a name="comments" href="#postform" class="opts">发表评论»</a>共有 <?php echo count($comments);?> 条网友评论</h2>
                 <ul id="BlogComments">
                     <?php
                         foreach ($comments as $comment) {
@@ -123,12 +120,12 @@
             </div>
             <div class="CommentForm">
                 <a name="postform"></a>
-                <form id="form_comment" method="POST">
-                    <textarea id="ta_post_content" name="content" style="width: 450px; height: 100px;"></textarea><br>
-                    <input value="发表评论" id="btn_comment" class="SUBMIT" type="submit">
+<!--                <form id="form_comment" method="POST">-->
+                    <textarea id="postContent" name="content" style="width: 450px; height: 100px;"></textarea><br>
+                    <input value="发表评论" id="btnComment" class="SUBMIT" type="button">
                     <img id="submiting" style="display: none;" src="images/loading.gif" align="absmiddle">
                     <span id="cmt_tip">文明上网，理性发言</span>
-                </form>
+<!--                </form>-->
                 <a href="#" class="more">回到顶部</a>
                 <a href="#comments" class="more">回到评论列表</a>
             </div>
@@ -172,15 +169,31 @@
     <div class="clear"></div>
     <div id="OSC_Footer">© 赛斯特(WWW.SYSIT.ORG)</div>
 </div>
+<script src="js/jquery.js"></script>
+<script src="js/jq.js"></script>
 <script>
     $(function () {
-        $('#form_comment').submit(function () {
+        $('#btnComment').click(function () {
             //通过ajax来验证用户是否登录
             //url,data,callback,type
-            $.get('user/ajax_check_login',function () {
-
+            $.get('user/ajax_check_login',function (data) {
+                if(data=='not_login'){
+                    alert('please login');
+                }else if(data=='logined'){
+                    //提交数据
+                    $.post('commentc/ajax_post',{
+                        blogId:<?php echo $blog->BLOG_ID;?>,
+                        content:$('#postContent').val()
+                    },function(res){
+                        if(res=='fail'){
+                            alert('comment failed please try again')
+                        }else if(res=='success'){
+                            location.reload();//页面刷新
+                        }
+                    },"text");
+                }
             },'text');
-        })
-    })
+        });
+    });
 </script>
 </body></html>

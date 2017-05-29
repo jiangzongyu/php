@@ -6,15 +6,25 @@
 			}
 		public function index(){
 			$this->load->model('blogm');
-            $user_id=$this->input->get('writer');
-            $writer = $this->blogm->get_by_user_id($user_id);
-            $blogs = $this->blogm->get_by_writer($user_id);
+			$this->load->model('blogcatalogm');
+            $writer_id=$this->input->get('writer');
+            $writer = $this->blogm->get_by_user_id($writer_id);
+            $blogs = $this->blogm->get_by_writer($writer_id);
+            $catalogs=$this->blogcatalogm->get_by_user_id($writer_id);
+//            var_dump($catalogs);
+//			 die();
             $data = array(
                 "blogs"=>$blogs,
-                'writer'=>$writer
+                'writer'=>$writer,
+                'catalogs'=>$catalogs,
             );
-//			 var_dump($result);
+//
+//            echo count($total);
+//            echo "<pre>";
+//			 var_dump($total);
+//            echo "</pre>";
 //			 die();
+
 			$this->load->view('index_logined',$data);
 		}
 
