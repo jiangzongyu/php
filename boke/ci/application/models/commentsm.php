@@ -19,7 +19,7 @@
         public function get_by_user_id($user_id){
 //            var_dump($user_id);
 //            die();
-           $sql="select comm.*,usr.name as COMMENTATOR_NAME,blog.title as TITLE,blog.blog_id from t_comments comm,t_users usr,t_blogs blog where comm.commentator=usr.user_id and comm.blog_id=blog.blog_id in (select blog_id from t_blogs where writer=$user_id)";
+           $sql="select comm.*,usr.name as COMMENTATOR_NAME,blog.title as TITLE,blog.blog_id from t_comments comm,t_users usr,t_blogs blog where comm.commentator=usr.user_id and comm.blog_id=blog.blog_id and comm.blog_id in (select blog_id from t_blogs where writer=$user_id)";
            $query=$this->db->query($sql);
            return $query->result();
         }

@@ -87,14 +87,15 @@
   <tr>
 	<td>
     <input name="title" id="f_title" class="TEXT" style="width: 400px;" type="text">
-	存放于 
-	<select name="catalog">
-	)
-	  <option selected="selected" value="92334">工作日志</option>
-	)
-	  <option value="92335">日常记录</option>
-	)
-	  <option value="92336">转贴的文章</option>
+	存放于
+	<select name="catalog_id">
+	    <?php
+            foreach($types as $type ){
+        ?>
+                <option value="<?php echo $type->CATALOG_ID;?>">
+                    <?php echo $type->NAME;?>
+                </option>
+        <?php }?>
 		</select>
 	<a href="blogCatalogs.htm" onclick="return confirm('是否放弃当前编辑进入分类管理？');">分类管理»</a>
 	</td>

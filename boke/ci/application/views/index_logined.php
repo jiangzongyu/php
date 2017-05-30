@@ -76,7 +76,7 @@
             ?>
 		<strong>
 
-			<?php echo $writer->NAME; ?>
+            <?php echo $writer->NAME; ?>
 
 		</strong>
 
@@ -104,7 +104,7 @@
             <?php
                 if ($login_user&&$login_user->USER_ID==$writer->USER_ID) {
             ?>
-                <span class="blog_admin">( <a href="newBlog.htm">修改</a> | <a href="javascript:delete_blog(24027)">删除</a> )</span>
+                <span class="blog_admin">( <a href="blogc/newBlog">修改</a> | <a href="javascript:;" class="del" data-id="<?php echo $blog->BLOG_ID; ?>">删除</a> )</span>
                 <br>
             <?php
                 }else{
@@ -132,7 +132,7 @@
                     <li><a href="blogc/newBlog">发表博客</a></li>
                     <li><a href="blogc/blogCatalog">博客分类管理</a></li>
                     <li><a href="blogc/blogs">文章管理</a></li>
-                    <li><a href="blogComments.htm">网友评论管理</a></li>
+                    <li><a href="commentc/blogcomments">网友评论管理</a></li>
                 </ul>
             </div>
             <div class="catalogs SpaceModule">
@@ -205,23 +205,66 @@ ajax_post("/action/blog/delete?id="+blog_id,"",function(html){
 	<div id="OSC_Footer">© 大禹哥(WWW.SYSIT.ORG)</div>
 </div>
 </div>
-<script type="text/javascript" src="js/space.htm" defer="defer"></script>
-<script type="text/javascript">
-<!--
-$(document).ready(function() {
-	$('a.fancybox').fancybox({titleShow:false});
-});
+<script type='text/javascript'>
 
-function pay_attention(pid,concern_it){
-	if(concern_it){
-		$("#p_attention_count").load("/action/favorite/add?mailnotify=true&type=3&id="+pid);
-		$('#attention_it').html('<a href="javascript:pay_attention('+pid+',false)" style="color:#A00;">取消关注</a>');	
-	}
-	else{
-		$("#p_attention_count").load("/action/favorite/cancel?type=3&id="+pid);
-		$('#attention_it').html('<a href="javascript:pay_attention('+pid+',true)" style="color:#3E62A6;">关注此文章</a>');
-	}
-}
-//-->
+    <!--
+
+    $(document).ready(function(){
+
+        KE.show({
+
+            id : 'ta_blog_content',
+
+            resizeMode : 1,
+
+            shadowMode : false,
+
+            allowPreviewEmoticons : false,
+
+            allowUpload : true,
+
+            syncType : 'auto',
+
+            urlType : 'domain',
+
+            cssPath : 'css/ke-oschina.css',
+
+            imageUploadJson : '/action/blog/upload_img',
+
+            items : [ 'bold', 'italic', 'underline', 'strikethrough', 'removeformat','|','textcolor', 'bgcolor',
+
+                'title', 'fontname', 'fontsize',  '|',
+
+                'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', '|',
+
+                'code', 'image', 'flash', 'emoticons', 'link', 'unlink','|','selectall','source' ,'about'
+
+            ]
+
+        });
+
+    });
+
+    //-->
+
+</script>
+<script src="js/jq.js"></script>
+<script>
+    $(function () {
+
+        $('.del').click(function () {
+//            alert('hhah');
+            var that=this;
+            $.get('blogc/remove',{
+                blogId:$(this).data('id')
+            },function (data) {
+                if(data=='success'){
+                    $(that).parents('li').remove();
+                    location.reload();
+                }
+            },"text");
+        });
+
+    })
 </script>
 </body></html>

@@ -36,16 +36,40 @@
             );
             $this->load->view('visitor',$data);
         }
+
 		public function newBlog(){
-			$this->load->view('newBlog');
+		    $login_user=$this->session->userdata('login_user');
+		    $this->load->model('blogm');
+		    $writer=$login_user->USER_ID;
+//            var_dump($writer);
+//            die();
+
+            $type=$this->blogm->get_types_by_user($writer);
+			$this->load->view('newBlog',array(
+			    'types'=>$type
+            ));
+//			var_dump($type);
+//            die();
+
 		}
+
 		public function do_newBlog(){
-			$title=$this->input->post('title');
-			$content=$this->input->post('content');
-			$this->load->model('blogm');
-			$this->blogm->get_newBlog($title,$content);
+			$title=htmlspecialchars($this->input->post('title'));
+			$content=htmlspecialchars($this->input->post('content'));
+            $login_user=$this->session->userdata('login_user');
+            $writer=$login_user->USER_ID;
+            $catalog_id=$this->input->post('catalog_id');
+//            var_dump($catalog_id);
+//            die();
+            $this->load->model('blogm');
+			$this->blogm->get_newBlog($title,$content,$writer,$catalog_id);
 			// $this->load->view('newBlog');
             redirect('blogc/index');
+//            if($rows>0){
+//                echo 'success';
+//            }else{
+//                echo 'fail';
+//            }
 		}
 
 		public function do_blogCatalog(){
@@ -87,6 +111,17 @@
             );
 
             $this->load->view('view_post',$data);
+        }
+
+        public function remove(){
+            $this->load->model('blogm');
+            $blog_id=$this->input->get('blogId');
+            $result=$this->blogm->delete($blog_id);
+            if($result){
+                echo 'success';
+            }else{
+                echo 'fail';
+            }
         }
 	}
  ?>

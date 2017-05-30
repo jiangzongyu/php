@@ -8,19 +8,16 @@
 			return $this->db->get()->result();
 			// var_dump($query);
 		}
-//		 public function get_all_catalog(){
-//		    $this->db->select('blog.*,catalog.name');
-//		    $this->db->from('t_blogs blog');
-//		    $this->db->join('t_blog_catalog','blog.catalog_id=catalog.catalog_id');
-//		 	$query=$this->db->get('t_blog_catalogs');
-//		 	return $query->result();
-//		 }
-		public function get_newBlog($title,$content){
+
+		public function get_newBlog($title,$content,$writer,$catalog_id){
 			$arr=array(
 				'TITLE'=>$title,
-				'CONTENT'=>$content
+				'CONTENT'=>$content,
+                'WRITER'=>$writer,
+                'CATALOG_ID'=>$catalog_id
 				);
-			return $this->db->insert('t_blogs',$arr);
+			$this->db->insert('t_blogs',$arr);
+			return $this->db->affected_rows();
 		}
 		public function get_blogCatalog($name){
 			$arr=array(
@@ -64,6 +61,23 @@
             $this->db->join('t_users usr','blog.writer=usr.user_id');
             $this->db->where('blog.blog_id',$blog_id);
             return $this->db->get()->row();
+        }
+
+        public function get_types_by_user($user_id){
+
+            $sql="select t.*,(select count(*) from t_blog_catalogs a where a.CATALOG_ID=t.CATALOG_ID ) num from t_blog_catalogs t where USER_ID=$user_id";
+            $query=$this->db->query($sql)->result();
+//            var_dump($query);
+//            die();
+            return $query;
+
+        }
+        public function delete($blog_id){
+            $this->db->delete('t_blogs',array('blog_id'=>$blog_id));
+            if($this->db->affected_rows()>0){
+                return TRUE;
+            }
+            return FALSE;
         }
 	}	
  ?>
