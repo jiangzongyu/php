@@ -54,7 +54,7 @@
 	<div id="OSC_Content">
 <div id="AdminScreen">
     <div id="AdminPath">
-        <a href="blogc">返回我的首页</a>&nbsp;»
+        <a href="blogc/index?writer=<?php echo $login_user->USER_ID; ?>">返回我的首页</a>&nbsp;»
     	<span id="AdminTitle">发表博客</span>
     </div>
     <div id="AdminMenu"><ul>
@@ -81,7 +81,7 @@
     <div id="AdminContent">
 <div class="MainForm">
 <form id="BlogForm" action="blogc/do_newBlog" method="POST">
-<input id="hdn_blog_id" name="draft" value="0" type="hidden">
+<input id="hdn_blog_id" name="draft" value="" type="hidden">
   <table>
   <tbody><tr><td class="t">标题（必填）</td></tr>
   <tr>

@@ -79,5 +79,43 @@
             }
             return FALSE;
         }
+
+        public function query($title){
+            $sql="select * from t_blogs blog where TITLE like '%$title%'";
+
+            $query=$this->db->query($sql)->result();
+//            var_dump($query);
+//            die();
+            return $query;
+        }
+
+        public function do_updata($blog_id){
+            $data = array(
+                'BLOG_ID' => $blog_id
+            );
+            $result =  $this->db->get_where('t_blogs', $data);
+            if($result){
+                return TRUE;
+            }
+            return FALSE;
+        }
+        public function do1_updata($blog_id){
+            $data = array(
+                'BLOG_ID' => $blog_id
+            );
+            $result =  $this->db->get_where('t_blogs', $data);
+            return $result->row();
+        }
+        public function get_updataBlog($blog_id,$title,$content,$writer,$catalog_id){
+            $arr=array(
+                'TITLE'=>$title,
+                'CONTENT'=>$content,
+                'WRITER'=>$writer,
+                'CATALOG_ID'=>$catalog_id
+            );
+            $this->db->where('BLOG_ID', $blog_id);
+            $this->db->update('t_blogs',$arr);
+            return $this->db->affected_rows();
+        }
 	}	
  ?>

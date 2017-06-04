@@ -91,7 +91,6 @@
             <div class="BlogContent TextContent"><?php echo $blog->CONTENT;?></div>
             <div class="BlogLinks">
                 <ul>
-                    <li>上篇 <span>(1小时前)</span>：<a href="viewPost_logined.htm" class="prev">测试文章2</a></li>            	</ul>
             </div>
             <div class="BlogComments">
                 <h2><a name="comments" href="#postform" class="opts">发表评论»</a>共有 <?php echo count($comments);?> 条网友评论</h2>

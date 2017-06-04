@@ -51,9 +51,9 @@
 			</span>
 </div>
 		<div id="SearchBar">
-    		<form action="#">
-						<input name="user" value="154693" type="hidden">
-						<input id="txt_q" name="q" class="SERACH" value="在此空间的博客中搜索" onblur="(this.value=='')?this.value=在此空间的博客中搜索':this.value" onfocus="if(this.value=='在此空间的博客中搜索'){this.value='';};this.select();" type="text">
+    		<form action="blogc/search">
+						<input name="writer" value="<?php echo $writer->USER_ID; ?>" type="hidden">
+						<input id="txt_q" name="q" class="SEARCH" value="在此空间的博客中搜索" onblur="(this.value=='')?this.value=在此空间的博客中搜索':this.value" onfocus="if(this.value=='在此空间的博客中搜索'){this.value='';};this.select();" type="text">
 				<input class="SUBMIT" value="搜索" type="submit">
     		</form>
 		</div>
@@ -96,6 +96,7 @@
 	<?php	
 		foreach($blogs as $blog) {
             ?>
+            <input id="p1" type="hidden" value="<?php echo $blog->BLOG_ID?>">
             <h2 class="BlogAccess_true BlogTop_0"><a href="blogc/view/<?php echo $blog->BLOG_ID ?>"><?php echo $blog->TITLE ?></a></h2>
             <span class="time">时间：<?php echo $blog->ADD_TIME ?></span>
             <span class="catalog">分类: <a href="#"><?php echo $blog->CATALOG_NAME ?></a></span>
@@ -104,7 +105,7 @@
             <?php
                 if ($login_user&&$login_user->USER_ID==$writer->USER_ID) {
             ?>
-                <span class="blog_admin">( <a href="blogc/newBlog">修改</a> | <a href="javascript:;" class="del" data-id="<?php echo $blog->BLOG_ID; ?>">删除</a> )</span>
+                <span class="blog_admin">( <a href="javascript:;" class="updata" data-blogId="<?php echo $blog->BLOG_ID; ?>">修改</a> | <a href="javascript:;" class="del" data-id="<?php echo $blog->BLOG_ID; ?>">删除</a> )</span>
                 <br>
             <?php
                 }else{
@@ -123,7 +124,7 @@
 <div class="clear"></div>
 	</div>
         <?php
-            if($login_user){
+            if($login_user&&$login_user->USER_ID==$writer->USER_ID){
         ?>
         <div class="BlogMenu">
             <div class="admin SpaceModule">
@@ -264,7 +265,26 @@ ajax_post("/action/blog/delete?id="+blog_id,"",function(html){
                 }
             },"text");
         });
+    });
+
+    $(function () {
+
+        $('.updata').click(function () {
+//            alert($(this).data('id'));
+//            var that=this;
+            $.get('blogc/updata',{
+                id:$(this).data('id')
+            },function (data) {
+
+                if(data=='success'){
+                    window.location.href ='blogc/updataBlog?blog_id='+$("#p1").val();
+                }else{
+                    alert('wuwuuwuuw');
+                }
+            },'text');
+        });
 
     })
+
 </script>
 </body></html>

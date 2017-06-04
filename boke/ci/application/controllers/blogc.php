@@ -45,8 +45,8 @@
 //            die();
 
             $type=$this->blogm->get_types_by_user($writer);
-			$this->load->view('newBlog',array(
-			    'types'=>$type
+            $this->load->view('newBlog',array(
+                'types'=>$type
             ));
 //			var_dump($type);
 //            die();
@@ -63,8 +63,7 @@
 //            die();
             $this->load->model('blogm');
 			$this->blogm->get_newBlog($title,$content,$writer,$catalog_id);
-			// $this->load->view('newBlog');
-            redirect('blogc/index');
+            redirect('blogc/index?writer='.$writer);
 //            if($rows>0){
 //                echo 'success';
 //            }else{
@@ -96,17 +95,21 @@
 			$this->load->view('blogs',array(
 					'catalogs'=>$result
 				));
+//			echo '<pre>';
+//            var_dump($result);
+//            echo '</pre>';
+//            die();
 		}
 
 		public function view($blog_id){
             //需要两次查询，第一次查询关联user和blog表
             $this->load->model('commentsm');
             $this->load->model('blogm');
-            $blog = $this->blogm->get_by_id($blog_id);
+            $blogs = $this->blogm->get_by_id($blog_id);
             //第二次查询blog的comments
             $comments = $this->commentsm ->get_by_blog_id($blog_id);
             $data = array(
-                'blog'=>$blog,
+                'blog'=>$blogs,
                 'comments'=>$comments
             );
 
@@ -123,5 +126,59 @@
                 echo 'fail';
             }
         }
+
+        public function search(){
+            $this->load->model('blogm');
+            $title=$this->input->get('q');
+            $results=$this->blogm->query($title);
+            $data=array(
+                'blog'=>$results
+            );
+            $this->load->view('view_query',$data);
+//                        echo '<pre>';
+//            var_dump($data);
+//            echo '</pre>';
+//            die();
+
+        }
+
+        public function updata(){
+            $this->load->model('blogm');
+            $blog_id=$this->input->get('id');
+
+            $result=$this->blogm->do_updata($blog_id);
+            if($result){
+                echo 'success';
+            }else{
+                echo 'fail';
+            }
+        }
+        public function updataBlog(){
+            $this->load->model('blogm');
+            $blog_id=$this->input->get('blog_id');
+            $result=$this->blogm->do1_updata($blog_id);
+            $login_user=$this->session->userdata('login_user');
+            $writer=$login_user->USER_ID;
+            $type=$this->blogm->get_types_by_user($writer);
+            $data=array(
+                'blog'=>$result,
+                'types'=>$type
+            );
+
+            $this->load->view('updataBlog',$data);
+        }
+        public function do_updata(){
+            $this->load->model('blogm');
+            $blog_id=$this->input->post('blog_id');
+            $title=htmlspecialchars($this->input->post('title'));
+            $content=htmlspecialchars($this->input->post('content'));
+            $login_user=$this->session->userdata('login_user');
+            $writer=$login_user->USER_ID;
+            $catalog_id=$this->input->post('catalog_id');
+            $this->blogm->get_updataBlog($blog_id,$title,$content,$writer,$catalog_id);
+            redirect('blogc/index?writer='.$writer);
+
+        }
 	}
+
  ?>
